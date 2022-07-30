@@ -1,0 +1,16 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{AEFCC035-4B23-4A92-EE7F-1B9495B032B9}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "Tencent_FPS",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	]
+}
