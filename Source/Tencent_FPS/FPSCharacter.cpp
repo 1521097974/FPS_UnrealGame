@@ -4,10 +4,13 @@
 #include "FPSCharacter.h"
 #include "XRMotionControllerBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/InputSettings.h"
+#include "GameFramework/PlayerController.h"
 
 // Sets default values
 AFPSCharacter::AFPSCharacter()
 {
+	
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	//创建第一人称摄像机组件
@@ -26,20 +29,13 @@ AFPSCharacter::AFPSCharacter()
 	FPSMesh->SetupAttachment(FPSCameraComponent);
 	FPSMesh->bCastDynamicShadow = false;
 	FPSMesh->CastShadow = false;
-	
-	// Create VR Controllers.
-	R_MotionController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("R_MotionController"));
-	R_MotionController->MotionSource = FXRMotionControllerBase::RightHandSourceId;
-	R_MotionController->SetupAttachment(RootComponent);
-	L_MotionController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("L_MotionController"));
-	L_MotionController->SetupAttachment(RootComponent);
 
 	VR_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VR_Gun"));
 	VR_Gun->SetOnlyOwnerSee(false);
 	VR_Gun->bCastDynamicShadow=false;
 	VR_Gun->CastShadow = false;
-	VR_Gun->SetupAttachment(R_MotionController);
-	VR_Gun->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
+	VR_Gun->SetupAttachment(RootComponent);
+	//VR_Gun->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 
 	MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("VR_MuzzleLocation"));
 	MuzzleLocation->SetupAttachment(VR_Gun);
@@ -73,10 +69,10 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFPSCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFPSCharacter::MoveRight);
 	//视角
-	PlayerInputComponent->BindAxis("TurnRate", this, &AFPSCharacter::TurnAtRate);
+	#if !PLATFORM_ANDROID
 	PlayerInputComponent->BindAxis("Turn", this, &AFPSCharacter::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &AFPSCharacter::LookUpAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &AFPSCharacter::AddControllerPitchInput);
+	#endif
 	//跳跃
 	PlayerInputComponent->BindAction("Jump",IE_Pressed, this, &AFPSCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFPSCharacter::StopJump);
@@ -97,6 +93,7 @@ void AFPSCharacter::MoveRight(float value)
 	if (value != 0.0f)
 		AddMovementInput(GetActorRightVector(), value);
 }
+
 void AFPSCharacter::StartJump()
 {
 	bPressedJump = true;
@@ -145,16 +142,4 @@ void AFPSCharacter::Fire()
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
 	}
-}
-
-void AFPSCharacter::TurnAtRate(float Rate)
-{
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
-}
-
-void AFPSCharacter::LookUpAtRate(float Rate)
-{
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
-	/*check(GEngine != nullptr)
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("%f"), GetWorld()->GetDeltaSeconds()));*/
 }
