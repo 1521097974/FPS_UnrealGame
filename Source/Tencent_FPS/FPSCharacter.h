@@ -4,12 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include <Camera/CameraComponent.h>
-#include <Components/CapsuleComponent.h>
-#include "FPSProjectile.h"
-#include <Animation/AnimInstance.h>
-#include <Sound/SoundBase.h>
 #include "FPSCharacter.generated.h"
+
+class USkeletalMeshComponent;
+class UCameraComponent;
+class USceneComponent;
+class USoundBase;
+class UAnimMontage;
+class AFPS_Weapon;
+class UFPS_AttributeComponent;
 
 UCLASS()
 class TENCENT_FPS_API AFPSCharacter : public ACharacter
@@ -28,7 +31,10 @@ protected:
 	// 要生成的发射物类。
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
-
+	
+	//瞄准
+	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
+		void Zoom();
 
 public:	
 	// Called every frame
@@ -47,18 +53,35 @@ public:
 		void StopJump();
 	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
 		void Fire();
+	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
+		void EquipWeapon(AFPS_ItemBase *Weapon);
 	UPROPERTY(VisibleAnywhere)
 		UCameraComponent* FPSCameraComponent;
 	// 第一人称网格体（手臂），仅对所属玩家可见。
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
-	// 枪口相对于摄像机位置的偏移。
-	UPROPERTY(VisibleDefaultsOnly, Category = Position)
-		USceneComponent* MuzzleLocation;
-	//声音和蒙太奇动画
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		USoundBase* FireSound;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		UAnimMontage* FireAnimation;
+	UPROPERTY()
+		AFPS_Weapon* CurrentWeapon;
+	//武器基类
+	UPROPERTY(EditDefaultsOnly, Category = player)
+		TSubclassOf<AFPS_ItemBase> ItemClass;
+	UPROPERTY()
+		AFPS_ItemBase* ItemWeapon;
+	//武器类型
+	UPROPERTY()
+		int WeaponKind;
+	//瞄准属性
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
+		float ZoomedFOV;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player, meta = (ClampMin = 0.0, ClampMax = 100))
+		float ZoomInterSpeed;
+
+	bool GetWeapon = false;
 	
+	bool HandWeapon = false;
+
+	bool bWantsToZoom =false;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+		UFPS_AttributeComponent* AttributeComponent;
 };

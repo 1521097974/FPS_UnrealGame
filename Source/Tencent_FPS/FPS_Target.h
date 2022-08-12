@@ -4,32 +4,33 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "FPS_ItemBase.generated.h"
+#include "FPS_Target.generated.h"
 
-class AFPS_Weapon;
+class USphereComponent;
 
 UCLASS()
-class TENCENT_FPS_API AFPS_ItemBase : public AActor
+class TENCENT_FPS_API AFPS_Target : public AActor
 {
 	GENERATED_BODY()
-
 	
-public:
+public:	
 	// Sets default values for this actor's properties
-	AFPS_ItemBase();
+	AFPS_Target();
 
-	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
-public:
+
+public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	//枪械蓝图
-	UPROPERTY(EditDefaultsOnly, Category = player)
-		TSubclassOf<AFPS_Weapon> WeaponClass[2];
-	//获取武器类型
-	virtual int GetWeaponKind();
+
+	UPROPERTY(VisibleDefaultsOnly)
+		UStaticMeshComponent* TargetMeshComponent;
+	//碰撞体
+	UPROPERTY(VisibleDefaultsOnly)
+		USphereComponent* CollisionComponent;
+
 	
+
 };

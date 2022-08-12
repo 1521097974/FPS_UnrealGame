@@ -2,6 +2,10 @@
 
 
 #include "FPSProjectile.h"
+#include "FPS_ItemBase.h"
+#include "FPS_Target.h"
+#include "FPSCharacter.h"
+#include "FPS_AttributeComponent.h"
 
 // Sets default values
 AFPSProjectile::AFPSProjectile()
@@ -24,6 +28,7 @@ AFPSProjectile::AFPSProjectile()
 	}
 	if (!ProjectileMovementComponent)
 	{
+		//生成时的行为
 		ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 		ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 		ProjectileMovementComponent->InitialSpeed = 3000.0f;
@@ -36,28 +41,19 @@ AFPSProjectile::AFPSProjectile()
 	if (!ProjectileMeshComponent)
 	{
 		ProjectileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMeshComponent"));
-		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("'/Game/Ball.Ball'"));
-		if (Mesh.Succeeded())
-		{
-			ProjectileMeshComponent->SetStaticMesh(Mesh.Object);
-		}
 	}
-	static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/M_Ball.M_Ball'"));
-	if (Material.Succeeded())
-	{
-		ProjectileMaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, ProjectileMeshComponent);
-	}
-	ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
 	ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
 	ProjectileMeshComponent->SetupAttachment(RootComponent);
+	//3秒后删除（生存周期）
 	InitialLifeSpan = 3.0f;
+
+	
 }
 
 // Called when the game starts or when spawned
 void AFPSProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -74,10 +70,20 @@ void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
+	//碰撞到的目标
+	T = Cast<AFPS_Target>(OtherActor);
+	AActor* MyOwner = GetOwner();
+	Owner = Cast<AFPSCharacter>(MyOwner);
+	if (T)
+	{
+		Owner->AttributeComponent->AddScore();
+	}
+	//给击中的物体施加一个冲量
 	if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
 	{
+		
 		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
 	}
-
+	//销毁
 	Destroy();
 }

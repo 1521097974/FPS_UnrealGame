@@ -6,11 +6,18 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/InputSettings.h"
 #include "GameFramework/PlayerController.h"
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "FPSProjectile.h"
+#include "Animation/AnimInstance.h"
+#include "Sound/SoundBase.h"
+#include "FPS_Weapon.h"
+#include "FPS_ItemBase.h"
+#include "FPS_AttributeComponent.h"
 
 // Sets default values
 AFPSCharacter::AFPSCharacter()
 {
-	
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	//创建第一人称摄像机组件
@@ -30,35 +37,38 @@ AFPSCharacter::AFPSCharacter()
 	FPSMesh->bCastDynamicShadow = false;
 	FPSMesh->CastShadow = false;
 
-	VR_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VR_Gun"));
-	VR_Gun->SetOnlyOwnerSee(false);
-	VR_Gun->bCastDynamicShadow=false;
-	VR_Gun->CastShadow = false;
-	VR_Gun->SetupAttachment(RootComponent);
-	//VR_Gun->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
-
-	MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("VR_MuzzleLocation"));
-	MuzzleLocation->SetupAttachment(VR_Gun);
+	AttributeComponent = CreateDefaultSubobject<UFPS_AttributeComponent>("AttributeComponent");
 }
 
 // Called when the game starts or when spawned
 void AFPSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	VR_Gun->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 
-	check(GEngine != nullptr);
-	// 显示调试消息五秒。 
-	// -1"键"值参数可以防止更新或刷新消息。
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We are using FPSCharacter."));
-
+	ItemWeapon = GetWorld()->SpawnActor<AFPS_ItemBase>(ItemClass);
 }
 
 // Called every frame
 void AFPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (GetWeapon)
+	{
+		CurrentWeapon = GetWorld()->SpawnActor<AFPS_Weapon>(ItemWeapon->WeaponClass[WeaponKind]);
+		if (CurrentWeapon)
+		{
+			CurrentWeapon->SetOwner(this);
+			CurrentWeapon->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+		}
+		GetWeapon = false;
+		HandWeapon = true;
+	}
+	if (HandWeapon)
+	{
+		float TargetFOV = bWantsToZoom ? ZoomedFOV : 90.0f;
+		float CurrentFOV = FMath::FInterpTo(FPSCameraComponent->FieldOfView, TargetFOV, DeltaTime, ZoomInterSpeed);
+		FPSCameraComponent->SetFieldOfView(CurrentFOV);
+	}
 }
 
 // Called to bind functionality to input
@@ -86,14 +96,12 @@ void AFPSCharacter::MoveForward(float value)
 	if (value != 0.0f)
 		AddMovementInput(GetActorForwardVector(), value);
 }
-
 void AFPSCharacter::MoveRight(float value)
 {
 	//向右
 	if (value != 0.0f)
 		AddMovementInput(GetActorRightVector(), value);
 }
-
 void AFPSCharacter::StartJump()
 {
 	bPressedJump = true;
@@ -105,41 +113,22 @@ void AFPSCharacter::StopJump()
 
 void AFPSCharacter::Fire()
 {
-	if (ProjectileClass)
+	if (CurrentWeapon)
 	{
-		FVector CameraLocation;
-		FRotator CameraRotation;
-		GetActorEyesViewPoint(CameraLocation, CameraRotation);
-
-		const FRotator SpawnRotation = MuzzleLocation->GetComponentRotation();
-		const FVector SpawnLocation = MuzzleLocation->GetComponentLocation();
-
-		UWorld* World = GetWorld();
-		if (World)
-		{
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = this;
-			SpawnParams.Instigator = GetInstigator();
-
-			AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
-			if (Projectile)
-			{
-				// 设置发射物的初始轨迹。
-				FVector LaunchDirection = SpawnRotation.Vector();
-				Projectile->FireInDirection(LaunchDirection);
-			}
-		}
+		CurrentWeapon->Fire();
 	}
-	if (FireSound != nullptr)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, MuzzleLocation->GetComponentLocation());
-	}
-	if (FireAnimation != nullptr)
-	{
-		UAnimInstance* AnimInstance = FPSMesh->GetAnimInstance();
-		if (AnimInstance != nullptr)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
-	}
+}
+
+void AFPSCharacter::EquipWeapon(AFPS_ItemBase* Weapon)
+{
+	Weapon->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	WeaponKind = Weapon->GetWeaponKind();
+	GetWeapon = true;
+}
+
+void AFPSCharacter::Zoom()
+{
+	bWantsToZoom=bWantsToZoom?false:true;
+	check(GEngine != nullptr);
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("zoom"));
 }

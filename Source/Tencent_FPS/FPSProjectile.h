@@ -7,6 +7,10 @@
 #include <GameFramework/ProjectileMovementComponent.h>
 #include "FPSProjectile.generated.h"
 
+class AFPS_ItemBase;
+class AFPS_Target;
+class AFPSCharacter;
+
 UCLASS()
 class TENCENT_FPS_API AFPSProjectile : public AActor
 {
@@ -23,20 +27,22 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	//碰撞体
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 		USphereComponent* CollisionComponent;
 	// 发射物移动组件。
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 		UProjectileMovementComponent* ProjectileMovementComponent;
+	//静态网格体
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 		UStaticMeshComponent* ProjectileMeshComponent;
-	UPROPERTY(VisibleDefaultsOnly, Category = Movement)
-		UMaterialInstanceDynamic* ProjectileMaterialInstance;
-	UFUNCTION()
+	
+	UFUNCTION(BlueprintCallable)
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 	void FireInDirection(const FVector& ShootDirection);
-
-	
+	//目标
+	AFPS_Target* T;
+	//持枪的拥有者
+	AFPSCharacter* Owner;
 };
