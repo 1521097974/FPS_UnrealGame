@@ -23,15 +23,16 @@ AFPS_Weapon::AFPS_Weapon()
 	SphereCollision->SetupAttachment(Gun);
 	SphereCollision->OnComponentBeginOverlap.AddDynamic(this,&AFPS_Weapon::OnOverlayBegin);
 
+	
 }
 //检测碰撞
 void AFPS_Weapon::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("OverLap"));
 	AFPSCharacter* player = Cast<AFPSCharacter>(OtherActor);
 	//如果角色手里没有武器
 	if (player && !player->HandWeapon)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("OverLap"));
 		player->EquipWeapon(this);
 	}
 }

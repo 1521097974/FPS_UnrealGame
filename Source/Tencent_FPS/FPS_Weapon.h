@@ -17,6 +17,7 @@ class TENCENT_FPS_API AFPS_Weapon : public AFPS_ItemBase
 
 public:
 	AFPS_Weapon();
+
 	
 protected:
 	UPROPERTY(VisibleAnywhere, Category = Mesh)
@@ -24,6 +25,7 @@ protected:
 	// 要生成的发射物类。
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundBase* FireSound;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)

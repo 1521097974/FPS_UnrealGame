@@ -27,7 +27,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	//枪械蓝图
-	UPROPERTY(EditDefaultsOnly, Category = player)
+	UPROPERTY(EditAnywhere, Category = Weapons)
 		TSubclassOf<AFPS_Weapon> WeaponClass[2];
 	//获取武器类型
 	virtual int GetWeaponKind();
