@@ -32,7 +32,6 @@ void AFPS_Weapon::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActo
 	//如果角色手里没有武器
 	if (player && !player->HandWeapon)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("OverLap"));
 		player->EquipWeapon(this);
 	}
 }
@@ -83,23 +82,33 @@ void AFPS_Weapon::Fire()
 			}
 
 		}
-		if (FireSound != nullptr)//声音
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, FireSound, MuzzleLocation->GetComponentLocation());
-		}
-		if (FireAnimation != nullptr)//动画
+		Mut_FireSound();
+		Mut_FireAnimation();
+}
+
+void AFPS_Weapon::Mut_FireSound_Implementation()
+{
+	if (FireSound != nullptr)//声音
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, MuzzleLocation->GetComponentLocation());
+	}
+}
+
+void AFPS_Weapon::Mut_FireAnimation_Implementation()
+{
+	AActor* MyOwner = GetOwner();
+	if (FireAnimation != nullptr)//动画
+	{
+
+		AFPSCharacter* m = Cast<AFPSCharacter>(MyOwner);
+		if (m)
 		{
 
-			AFPSCharacter* m = Cast<AFPSCharacter>(MyOwner);
-			if (m)
+			UAnimInstance* AnimInstance = m->FPSMesh->GetAnimInstance();
+			if (AnimInstance != nullptr)
 			{
-				
-				UAnimInstance* AnimInstance = m->FPSMesh->GetAnimInstance();
-				if (AnimInstance != nullptr)
-				{
-					AnimInstance->Montage_Play(FireAnimation, 1.f);
-				}
+				AnimInstance->Montage_Play(FireAnimation, 1.f);
 			}
 		}
-	
+	}
 }

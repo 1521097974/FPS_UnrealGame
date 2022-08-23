@@ -5,10 +5,16 @@
 #include "FPSCharacter.h"
 #include <Kismet/GameplayStatics.h>
 
+
+void AFPSHUD::BeginPlay()
+{
+	Super::BeginPlay();
+	//Character = Cast<AFPSCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
+	Character = GetWorld()->SpawnActor<AFPSCharacter>();
+}
 void AFPSHUD::DrawHUD()
 {
-	
-	if (CrosshairTexture && Character->HandWeapon)
+	if (CrosshairTexture&&Character->HandWeapon)
 	{
 		FVector2D Center(Canvas->ClipX * 0.5f, Canvas->ClipY * 0.5f);
 
@@ -20,9 +26,5 @@ void AFPSHUD::DrawHUD()
 	}
 }
 
-void AFPSHUD::BeginPlay()
-{
-	Character = Cast<AFPSCharacter>( UGameplayStatics::GetPlayerCharacter(this,0));
-	//Character = GetWorld()->SpawnActor<AFPSCharacter>(CharacterClass);
-}
+
 

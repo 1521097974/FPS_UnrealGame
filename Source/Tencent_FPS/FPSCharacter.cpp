@@ -32,7 +32,6 @@ AFPSCharacter::AFPSCharacter()
 
 	FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
 	check(FPSMesh != nullptr);
-	FPSMesh->SetOnlyOwnerSee(true);
 	FPSMesh->SetupAttachment(FPSCameraComponent);
 	FPSMesh->bCastDynamicShadow = false;
 	FPSMesh->CastShadow = false;
@@ -113,7 +112,7 @@ void AFPSCharacter::StopJump()
 	bPressedJump = false;
 }
 
-void AFPSCharacter::Fire()
+void AFPSCharacter::Fire_Implementation()
 {
 	if (CurrentWeapon)
 	{

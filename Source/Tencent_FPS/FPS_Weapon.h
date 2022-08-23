@@ -34,8 +34,19 @@ protected:
 	USphereComponent* SphereCollision;
 public:
 	//virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	//UFUNCTION(Client, Reliable)
+	//void Fire();
+	//void Fire_Implementation();
+	
 	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
 		void Fire();
+	//多播网络同步
+	UFUNCTION(NetMulticast,Reliable)
+		void Mut_FireSound();
+	UFUNCTION(NetMulticast,Reliable)
+		void Mut_FireAnimation();
+
+	//枪口位置
 	UPROPERTY(VisibleDefaultsOnly, Category = Position)
 		USceneComponent* MuzzleLocation;
 	UPROPERTY(EditAnywhere, Category = Gameplay)

@@ -51,7 +51,7 @@ public:
 		void StartJump();
 	UFUNCTION()
 		void StopJump();
-	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "FPS_BlueprintFunc")
 		void Fire();
 	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
 		void EquipWeapon(AFPS_ItemBase *Weapon);
@@ -77,9 +77,9 @@ public:
 		float ZoomInterSpeed;
 
 	bool GetWeapon = false;
-	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
 	bool HandWeapon = false;
-
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
 	bool bWantsToZoom =false;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

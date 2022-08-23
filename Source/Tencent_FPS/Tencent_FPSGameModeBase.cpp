@@ -7,7 +7,7 @@ void ATencent_FPSGameModeBase::StartPlay()
 {
 	Super::StartPlay();
 
-	ChangeMenuWidget(StartingWidgetClass);
+	//ChangeMenuWidget(StartingWidgetClass);
 	
 }
 void ATencent_FPSGameModeBase::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)

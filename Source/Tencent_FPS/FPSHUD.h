@@ -18,10 +18,12 @@ protected:
 
 	AFPSCharacter* Character;
 public:
+	UPROPERTY(EditDefaultsOnly, Category = Character)
+		TSubclassOf<class AFPSCharacter> FPSCharacterClass;
+
+	UFUNCTION(BlueprintCallable)
 	virtual void DrawHUD() override;
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<AFPSCharacter> CharacterClass;
 };
