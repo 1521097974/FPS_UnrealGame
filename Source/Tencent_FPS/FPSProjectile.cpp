@@ -6,6 +6,7 @@
 #include "FPS_Target.h"
 #include "FPSCharacter.h"
 #include "FPS_AttributeComponent.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 AFPSProjectile::AFPSProjectile()
@@ -83,6 +84,10 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor
 	{
 		
 		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
+	}
+	if (OtherActor != this&&HitParticle)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(this, HitParticle, GetActorLocation(), GetActorRotation());
 	}
 	//Ïú»Ù
 	Destroy();

@@ -53,6 +53,8 @@ public:
 		void StopJump();
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "FPS_BlueprintFunc")
 		void Fire();
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "FPS_BlueprintFunc")
+		void Grenade_Fire();
 	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
 		void EquipWeapon(AFPS_ItemBase *Weapon);
 	UPROPERTY(VisibleAnywhere)
@@ -60,7 +62,7 @@ public:
 	// 第一人称网格体（手臂），仅对所属玩家可见。
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 		AFPS_Weapon* CurrentWeapon;
 	//武器基类
 	UPROPERTY(EditDefaultsOnly, Category = player)

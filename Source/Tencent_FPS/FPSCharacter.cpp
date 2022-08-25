@@ -119,6 +119,13 @@ void AFPSCharacter::Fire_Implementation()
 		CurrentWeapon->Fire();
 	}
 }
+void AFPSCharacter::Grenade_Fire_Implementation()
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->Grenade_Fire();
+	}
+}
 
 void AFPSCharacter::EquipWeapon(AFPS_ItemBase* Weapon)
 {
@@ -131,6 +138,5 @@ void AFPSCharacter::EquipWeapon(AFPS_ItemBase* Weapon)
 void AFPSCharacter::Zoom()
 {
 	bWantsToZoom=bWantsToZoom?false:true;
-	check(GEngine != nullptr);
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("zoom"));
+	
 }

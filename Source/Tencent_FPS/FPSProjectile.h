@@ -36,6 +36,8 @@ public:
 	//¾²Ì¬Íø¸ñÌå
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 		UStaticMeshComponent* ProjectileMeshComponent;
+	UPROPERTY(EditAnywhere, Category = Projectile)
+		UParticleSystem* HitParticle;
 	
 	UFUNCTION(BlueprintCallable)
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);

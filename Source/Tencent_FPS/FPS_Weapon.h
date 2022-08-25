@@ -25,6 +25,8 @@ protected:
 	// 要生成的发射物类。
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class AFPSProjectile> Grenade_ProjectileClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundBase* FireSound;
@@ -40,6 +42,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
 		void Fire();
+	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
+		void Grenade_Fire();
 	//多播网络同步
 	UFUNCTION(NetMulticast,Reliable)
 		void Mut_FireSound();

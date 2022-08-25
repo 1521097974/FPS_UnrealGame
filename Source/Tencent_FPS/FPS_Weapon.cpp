@@ -86,6 +86,40 @@ void AFPS_Weapon::Fire()
 		Mut_FireAnimation();
 }
 
+void AFPS_Weapon::Grenade_Fire()
+{
+	AActor* MyOwner = GetOwner();
+	if (Grenade_ProjectileClass)
+	{
+		FVector CameraLocation;
+		FRotator CameraRotation;
+		GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+		const FRotator SpawnRotation = MuzzleLocation->GetComponentRotation();
+		const FVector SpawnLocation = MuzzleLocation->GetComponentLocation();
+
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = GetInstigator();
+
+			AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(Grenade_ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
+			if (Projectile)
+			{
+				Projectile->SetOwner(MyOwner);
+				// 设置发射物的初始轨迹。
+				FVector LaunchDirection = SpawnRotation.Vector();
+				Projectile->FireInDirection(LaunchDirection);
+			}
+		}
+
+	}
+	Mut_FireSound();
+	Mut_FireAnimation();
+}
+
 void AFPS_Weapon::Mut_FireSound_Implementation()
 {
 	if (FireSound != nullptr)//声音
