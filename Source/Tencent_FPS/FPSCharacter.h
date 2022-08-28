@@ -62,23 +62,15 @@ public:
 	// 第一人称网格体（手臂），仅对所属玩家可见。
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		AFPS_Weapon* CurrentWeapon;
-	//武器基类
-	UPROPERTY(EditDefaultsOnly, Category = player)
-		TSubclassOf<AFPS_ItemBase> ItemClass;
-	UPROPERTY()
-		AFPS_ItemBase* ItemWeapon;
-	//武器类型
-	UPROPERTY()
-		int WeaponKind;
+
 	//瞄准属性
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
 		float ZoomedFOV;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player, meta = (ClampMin = 0.0, ClampMax = 100))
 		float ZoomInterSpeed;
 
-	bool GetWeapon = false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
 	bool HandWeapon = false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)

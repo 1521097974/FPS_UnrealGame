@@ -55,9 +55,7 @@ public:
 		USceneComponent* MuzzleLocation;
 	UPROPERTY(EditAnywhere, Category = Gameplay)
 		int WeaponKind;
-	UFUNCTION()
-		virtual int GetWeaponKind();
-	UFUNCTION()
-		virtual void OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	//UFUNCTION()
+		//virtual void OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 };

@@ -21,11 +21,12 @@ AFPS_Weapon::AFPS_Weapon()
 
 	SphereCollision = CreateDefaultSubobject<USphereComponent>("Collision");
 	SphereCollision->SetupAttachment(Gun);
-	SphereCollision->OnComponentBeginOverlap.AddDynamic(this,&AFPS_Weapon::OnOverlayBegin);
+	//SphereCollision->OnComponentBeginOverlap.AddDynamic(this,&AFPS_Weapon::OnOverlayBegin);
 
 	
 }
 //¼ì²âÅö×²
+/*
 void AFPS_Weapon::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AFPSCharacter* player = Cast<AFPSCharacter>(OtherActor);
@@ -35,10 +36,7 @@ void AFPS_Weapon::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActo
 		player->EquipWeapon(this);
 	}
 }
-int AFPS_Weapon::GetWeaponKind()
-{
-	return WeaponKind;
-}
+*/
 /*
 void AFPS_Weapon::NotifyActorBeginOverlap(AActor* OtherActor)
 {

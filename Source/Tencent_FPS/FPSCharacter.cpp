@@ -43,27 +43,12 @@ AFPSCharacter::AFPSCharacter()
 void AFPSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	ItemWeapon = GetWorld()->SpawnActor<AFPS_ItemBase>(ItemClass);
 }
 
 // Called every frame
 void AFPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (GetWeapon)
-	{
-		
-		CurrentWeapon = GetWorld()->SpawnActor<AFPS_Weapon>(ItemWeapon->WeaponClass[WeaponKind]);
-		if (CurrentWeapon)
-		{
-			CurrentWeapon->SetOwner(this);
-			CurrentWeapon->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-		}
-		
-		GetWeapon = false;
-		HandWeapon = true;
-	}
 	if (HandWeapon)
 	{
 		float TargetFOV = bWantsToZoom ? ZoomedFOV : 90.0f;
@@ -129,10 +114,9 @@ void AFPSCharacter::Grenade_Fire_Implementation()
 
 void AFPSCharacter::EquipWeapon(AFPS_ItemBase* Weapon)
 {
-
 	Weapon->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-	WeaponKind = Weapon->GetWeaponKind();
-	GetWeapon = true;
+	HandWeapon = true;
+	CurrentWeapon->SetOwner(this);
 }
 
 void AFPSCharacter::Zoom()

@@ -75,6 +75,7 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor
 	T = Cast<AFPS_Target>(OtherActor);
 	AActor* MyOwner = GetOwner();
 	Owner = Cast<AFPSCharacter>(MyOwner);
+
 	if (T)
 	{
 		Owner->AttributeComponent->AddScore();
