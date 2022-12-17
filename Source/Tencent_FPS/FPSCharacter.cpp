@@ -18,25 +18,29 @@
 // Sets default values
 AFPSCharacter::AFPSCharacter()
 {
+
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	//创建第一人称摄像机组件
 	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	check(FPSCameraComponent != nullptr);
+	
 	//将组件附加到胶囊体组件
-	FPSCameraComponent->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent()));
+	//FPSCameraComponent->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent()));
 	// 将摄像机置于略高于眼睛上方的位置。
-	FPSCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f + BaseEyeHeight));
+	//FPSCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f + BaseEyeHeight));
 	// 启用Pawn控制摄像机旋转。
-	FPSCameraComponent->bUsePawnControlRotation = true;
+	//FPSCameraComponent->bUsePawnControlRotation = true;
 
 	FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
 	check(FPSMesh != nullptr);
-	FPSMesh->SetupAttachment(FPSCameraComponent);
+	FPSMesh->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent()));
+	FPSCameraComponent->SetupAttachment(FPSMesh,"Head");
 	FPSMesh->bCastDynamicShadow = false;
 	FPSMesh->CastShadow = false;
-
+	//角色属性
 	AttributeComponent = CreateDefaultSubobject<UFPS_AttributeComponent>("AttributeComponent");
+	
 }
 
 // Called when the game starts or when spawned
@@ -74,6 +78,7 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFPSCharacter::StopJump);
 	//开枪
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPSCharacter::Fire);
+	
 }
 
 void AFPSCharacter::MoveForward(float value)
@@ -112,15 +117,10 @@ void AFPSCharacter::Grenade_Fire_Implementation()
 	}
 }
 
-void AFPSCharacter::EquipWeapon(AFPS_ItemBase* Weapon)
+void AFPSCharacter::EquipWeapon(AFPS_ItemBase *Weapon)
 {
-	Weapon->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	Weapon->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripSocket"));
 	HandWeapon = true;
 	CurrentWeapon->SetOwner(this);
 }
 
-void AFPSCharacter::Zoom()
-{
-	bWantsToZoom=bWantsToZoom?false:true;
-	
-}

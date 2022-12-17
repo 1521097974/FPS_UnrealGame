@@ -32,10 +32,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
 	
-	//瞄准
-	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
-		void Zoom();
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -59,12 +55,15 @@ public:
 		void EquipWeapon(AFPS_ItemBase *Weapon);
 	UPROPERTY(VisibleAnywhere)
 		UCameraComponent* FPSCameraComponent;
-	// 第一人称网格体（手臂），仅对所属玩家可见。
+	// 第一人称网格体（手臂）
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		AFPS_Weapon* CurrentWeapon;
-
+	//瞄准
+	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
+		void Zoom() {bWantsToZoom = bWantsToZoom ? false : true;}
+	
 	//瞄准属性
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
 		float ZoomedFOV;

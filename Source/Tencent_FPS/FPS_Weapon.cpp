@@ -9,7 +9,6 @@
 
 AFPS_Weapon::AFPS_Weapon()
 {
-	
 	Gun = CreateDefaultSubobject<USkeletalMeshComponent>("Gun");
 	Gun->SetupAttachment(RootComponent);
 	Gun->CastShadow = false;
@@ -89,6 +88,7 @@ void AFPS_Weapon::Grenade_Fire()
 	AActor* MyOwner = GetOwner();
 	if (Grenade_ProjectileClass)
 	{
+		
 		FVector CameraLocation;
 		FRotator CameraRotation;
 		GetActorEyesViewPoint(CameraLocation, CameraRotation);
