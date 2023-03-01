@@ -19,6 +19,7 @@ protected:
 	//·ÖÊý
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Attribute);
 		int Score;
+	
 public:
 	UFUNCTION(BlueprintCallable)
 		void AddScore();

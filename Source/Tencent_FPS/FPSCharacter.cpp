@@ -55,7 +55,7 @@ void AFPSCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (HandWeapon)
 	{
-		float TargetFOV = bWantsToZoom ? ZoomedFOV : 90.0f;
+		float TargetFOV = bWantsToZoom ? ZoomedFOV : 100.0f;
 		float CurrentFOV = FMath::FInterpTo(FPSCameraComponent->FieldOfView, TargetFOV, DeltaTime, ZoomInterSpeed);
 		FPSCameraComponent->SetFieldOfView(CurrentFOV);
 	}
@@ -77,8 +77,7 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAction("Jump",IE_Pressed, this, &AFPSCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFPSCharacter::StopJump);
 	//¿ªÇ¹
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPSCharacter::Fire);
-	
+	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPSCharacter::Fire);
 }
 
 void AFPSCharacter::MoveForward(float value)

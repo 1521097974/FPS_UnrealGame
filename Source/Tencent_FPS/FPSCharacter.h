@@ -56,24 +56,31 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		UCameraComponent* FPSCameraComponent;
 	// 第一人称网格体（手臂）
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		AFPS_Weapon* CurrentWeapon;
 	//瞄准
 	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
-		void Zoom() {bWantsToZoom = bWantsToZoom ? false : true;}
+		void Zoom() { bWantsToZoom = bWantsToZoom ? false : true; if (bWantsToZoom) { TakeAim = true; } else { TakeAim = false; } }
 	
 	//瞄准属性
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
 		float ZoomedFOV;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player, meta = (ClampMin = 0.0, ClampMax = 100))
 		float ZoomInterSpeed;
+	//血量，盔甲
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = Attribute);
+	float Health = 1.0f;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = Attribute);
+	float Armor = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
 	bool HandWeapon = false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
 	bool bWantsToZoom =false;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = player)
+	bool TakeAim = false;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 		UFPS_AttributeComponent* AttributeComponent;

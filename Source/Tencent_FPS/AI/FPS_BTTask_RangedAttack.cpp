@@ -38,7 +38,7 @@ EBTNodeResult::Type UFPS_BTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent
 		AActor* NewProject = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzleLocation, MuzzleRotation,Params);
 
 		return NewProject ? EBTNodeResult::Succeeded : EBTNodeResult::Failed;
-		*/
+		*/ 
 	}
 
 	return EBTNodeResult::Failed;

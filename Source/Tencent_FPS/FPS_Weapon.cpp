@@ -49,6 +49,7 @@ void AFPS_Weapon::NotifyActorBeginOverlap(AActor* OtherActor)
 	}
 }
 */
+//°ë×Ô¶¯·¢Éä
 void AFPS_Weapon::Fire()
 {
 		AActor* MyOwner = GetOwner();

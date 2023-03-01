@@ -39,6 +39,7 @@ public:
 	//UFUNCTION(Client, Reliable)
 	//void Fire();
 	//void Fire_Implementation();
+
 	
 	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
 		void Fire();
@@ -53,8 +54,10 @@ public:
 	//Ç¹¿ÚÎ»ÖÃ
 	UPROPERTY(VisibleDefaultsOnly, Category = Position)
 		USceneComponent* MuzzleLocation;
-	UPROPERTY(EditAnywhere, Category = Gameplay)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Gameplay)
 		int WeaponKind;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Gameplay)
+		float FireRate = 0.0f;
 	//UFUNCTION()
 		//virtual void OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };
