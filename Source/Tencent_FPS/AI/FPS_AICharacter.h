@@ -23,10 +23,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Position)
 	USceneComponent* Muzzle;
-
 	UPROPERTY(VisibleDefaultsOnly, Category = Position)
-		USkeletalMeshComponent* Gun;
-
+	USkeletalMeshComponent* Gun;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = AI_Attribute);
+	float Health = 1.0f;
 };

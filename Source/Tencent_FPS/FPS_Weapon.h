@@ -9,6 +9,7 @@
 class USphereComponent;
 class USoundBase;
 class USceneComponent;
+class UCameraComponent;
 
 UCLASS()
 class TENCENT_FPS_API AFPS_Weapon : public AFPS_ItemBase
@@ -18,22 +19,22 @@ class TENCENT_FPS_API AFPS_Weapon : public AFPS_ItemBase
 public:
 	AFPS_Weapon();
 
-	
 protected:
-	UPROPERTY(VisibleAnywhere, Category = Mesh)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 		USkeletalMeshComponent* Gun;
 	// 要生成的发射物类。
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> Grenade_ProjectileClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UCameraComponent* ADSCamera; 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundBase* FireSound;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		UAnimMontage* FireAnimation;
 
-	USphereComponent* SphereCollision;
 public:
 	//virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	//UFUNCTION(Client, Reliable)
@@ -58,6 +59,8 @@ public:
 		int WeaponKind;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Gameplay)
 		float FireRate = 0.0f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Gameplay)
+		bool Automation = true;
 	//UFUNCTION()
 		//virtual void OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

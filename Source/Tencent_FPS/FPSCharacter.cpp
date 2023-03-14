@@ -123,3 +123,16 @@ void AFPSCharacter::EquipWeapon(AFPS_ItemBase *Weapon)
 	CurrentWeapon->SetOwner(this);
 }
 
+//…À∫¶
+void AFPSCharacter::Damage(float d)
+{
+	Armor = Armor - d;
+	if (Armor < 0.0f)
+	{
+		Health = Health + Armor;
+		Armor = 0.0f;
+	}
+
+}
+
+

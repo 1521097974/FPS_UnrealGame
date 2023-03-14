@@ -12,7 +12,7 @@ EBTNodeResult::Type UFPS_BTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent
 	AAIController* Controller = OwnerComp.GetAIOwner();
 	if (ensure(Controller))
 	{
-		/*
+		
 		AFPS_AICharacter* AIPawn = Cast<AFPS_AICharacter>(Controller->GetPawn());
 		if (AIPawn == nullptr)
 		{
@@ -32,13 +32,13 @@ EBTNodeResult::Type UFPS_BTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent
 
 		FRotator MuzzleRotation = Direction.Rotation();
 
-		FActorSpawnParameters Params;
-		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		//FActorSpawnParameters Params;
+		//Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-		AActor* NewProject = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzleLocation, MuzzleRotation,Params);
+		//AActor* NewProject = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzleLocation, MuzzleRotation,Params);
 
-		return NewProject ? EBTNodeResult::Succeeded : EBTNodeResult::Failed;
-		*/ 
+		//return NewProject ? EBTNodeResult::Succeeded : EBTNodeResult::Failed;
+		
 	}
 
 	return EBTNodeResult::Failed;

@@ -23,8 +23,8 @@ void UFPS_BTService_CheackAttackRange::TickNode(UBehaviorTreeComponent& OwnerCom
 				if (ensure(AIPawn))
 				{
 					float DistanceTo = FVector::Distance(TargetActor->GetActorLocation(), AIPawn->GetActorLocation());
-					//距离小于2000
-					bool bInRange = DistanceTo < 2000.f;
+					//距离小于100
+					bool bInRange = DistanceTo < 20.f;
 					//是否在视线内
 					bool bHasLos = false;
 					if (bInRange)

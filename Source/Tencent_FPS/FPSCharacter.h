@@ -53,7 +53,9 @@ public:
 		void Grenade_Fire();
 	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
 		void EquipWeapon(AFPS_ItemBase *Weapon);
-	UPROPERTY(VisibleAnywhere)
+	UFUNCTION(BlueprintCallable, Category = "FPS_BlueprintFunc")
+		void Damage(float damage);
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UCameraComponent* FPSCameraComponent;
 	// 第一人称网格体（手臂）
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh)
@@ -70,14 +72,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player, meta = (ClampMin = 0.0, ClampMax = 100))
 		float ZoomInterSpeed;
 	//血量，盔甲
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = Attribute);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Attribute);
 	float Health = 1.0f;
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = Attribute);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Attribute);
 	float Armor = 1.0f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = player)
 	bool HandWeapon = false;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = player)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = player)
 	bool bWantsToZoom =false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = player)
 	bool TakeAim = false;

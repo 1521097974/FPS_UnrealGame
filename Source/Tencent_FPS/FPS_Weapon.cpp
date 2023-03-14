@@ -6,9 +6,11 @@
 #include <Components/SphereComponent.h>
 #include "Kismet/GameplayStatics.h"
 #include "FPSProjectile.h"
+#include "Camera/CameraComponent.h"
 
 AFPS_Weapon::AFPS_Weapon()
 {
+
 	Gun = CreateDefaultSubobject<USkeletalMeshComponent>("Gun");
 	Gun->SetupAttachment(RootComponent);
 	Gun->CastShadow = false;
@@ -18,11 +20,9 @@ AFPS_Weapon::AFPS_Weapon()
 	MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("VR_MuzzleLocation"));
 	MuzzleLocation->SetupAttachment(Gun);
 
-	SphereCollision = CreateDefaultSubobject<USphereComponent>("Collision");
-	SphereCollision->SetupAttachment(Gun);
-	//SphereCollision->OnComponentBeginOverlap.AddDynamic(this,&AFPS_Weapon::OnOverlayBegin);
 
-	
+	ADSCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("ADSCamera"));
+	ADSCamera->SetupAttachment(Gun);
 }
 //¼ì²âÅö×²
 /*
