@@ -29,6 +29,6 @@ public:
 	USceneComponent* Muzzle;
 	UPROPERTY(VisibleDefaultsOnly, Category = Position)
 	USkeletalMeshComponent* Gun;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = AI_Attribute);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI_Attribute);
 	float Health = 1.0f;
 };

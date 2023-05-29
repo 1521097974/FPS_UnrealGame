@@ -59,6 +59,10 @@ void AFPSCharacter::Tick(float DeltaTime)
 		float CurrentFOV = FMath::FInterpTo(FPSCameraComponent->FieldOfView, TargetFOV, DeltaTime, ZoomInterSpeed);
 		FPSCameraComponent->SetFieldOfView(CurrentFOV);
 	}
+	if (Health < 0)
+	{
+
+	}
 }
 
 // Called to bind functionality to input

@@ -20,36 +20,8 @@ AFPS_Weapon::AFPS_Weapon()
 	MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("VR_MuzzleLocation"));
 	MuzzleLocation->SetupAttachment(Gun);
 
+}
 
-	ADSCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("ADSCamera"));
-	ADSCamera->SetupAttachment(Gun);
-}
-//检测碰撞
-/*
-void AFPS_Weapon::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	AFPSCharacter* player = Cast<AFPSCharacter>(OtherActor);
-	//如果角色手里没有武器
-	if (player && !player->HandWeapon)
-	{
-		player->EquipWeapon(this);
-	}
-}
-*/
-/*
-void AFPS_Weapon::NotifyActorBeginOverlap(AActor* OtherActor)
-{
-	Super::NotifyActorBeginOverlap(OtherActor);
-
-	AFPSCharacter* player = Cast<AFPSCharacter>(OtherActor);
-	//如果角色手里没有武器
-	if (player&&!player->HandWeapon)
-	{
-		player->EquipWeapon(this);
-	}
-}
-*/
-//半自动发射
 void AFPS_Weapon::Fire()
 {
 		AActor* MyOwner = GetOwner();

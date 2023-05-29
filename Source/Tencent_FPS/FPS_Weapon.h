@@ -27,8 +27,6 @@ protected:
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> Grenade_ProjectileClass;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UCameraComponent* ADSCamera; 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundBase* FireSound;
@@ -61,6 +59,10 @@ public:
 		float FireRate = 0.0f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Gameplay)
 		bool Automation = true;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Gameplay)
+		bool Superheating = true;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Gameplay)
+		float SuperheatingAmmo = 0.f;
 	//UFUNCTION()
 		//virtual void OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };
